@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<!--  This file conforms to the DTD xdc/bld/build.dtd -->
+<package name="xconfig_suart" version="" producerId="undefined">
+    <units>
+    </units>
+    <sources>
+        <srcFile name="package/cfg/suart_p430.c"/>
+    </sources>
+    <configscripts>
+        <srcFile name="D:/Documents and Settings/Rogerio/Meus documentos/workspace/workspace4.2/Bluebread_2211/suart.cfg"/>
+    </configscripts>
+    <makefiles>
+        <srcFile name="package.mak" src="package.bld"/>
+        <srcFile name="package/package.xdc.dep" src="package.xdc"/>
+        <srcFile name="package/cfg/suart_p430.mak" src="package.bld"/>
+        <srcFile name="package/cfg/suart_p430.o430.dep" src="package/cfg/suart_p430.c"/>
+        <srcFile name="package/cfg/suart_p430.dep" src="package/cfg/suart_p430.cfg"/>
+        <srcFile name="package/cfg/suart.x430.mak" src="package.bld"/>
+        <srcFile name="package/rel/xconfig_suart.tar.dep" src="package/rel/xconfig_suart.xdc.inc"/>
+    </makefiles>
+    <targets>
+        <target name="ti.targets.msp430.MSP430"
+            version="ti.targets.msp430.MSP430{1,0,3.3,2"
+            platform="ti.platforms.exp430F5438"
+            isa="430"
+            suffix="430"
+            rootDir="C:/PROGRA~2/TEXASI~1/ccsv4/tools/compiler/msp430"
+            os="undefined"
+            rts="ti.targets.msp430.rts430">
+            <model endian="little"
+                codeModel="small"
+                dataModel="small"/>
+        </target>
+    </targets>
+    <libraries>
+    </libraries>
+    <configurations>
+    <configuration name="suart"
+        pname="suart.p430"
+        target="ti.targets.msp430.MSP430"
+        platform="ti.platforms.msp430:MSP430G2211"
+        profile="release"
+        isPartial="false"
+        xCfgScript="package/cfg/suart_p430.cfg"
+        xCfgPrefix="package/cfg/suart_p430"
+        cfgScript="D:/Documents and Settings/Rogerio/Meus documentos/workspace/workspace4.2/Bluebread_2211/suart.cfg"
+        cfgArgs="null"
+        />
+    </configurations>
+    <executables>
+    <executable name="suart"
+        pname="suart.x430"
+        target="ti.targets.msp430.MSP430"
+        platform="ti.platforms.msp430:MSP430G2211"
+        profile="release"
+        xCfgScript="package/cfg/suart_p430.cfg"
+        xCfgPrefix="package/cfg/suart_p430"
+        cfgScript="D:/Documents and Settings/Rogerio/Meus documentos/workspace/workspace4.2/Bluebread_2211/suart.cfg"
+        cfgArgs="null"
+        />
+    </executables>
+    <tests>
+    <test exeName="suart.x430"
+        args=""
+        groupName="suart.x430"
+        refOutput="undefined"
+        refExitCode="0"
+        execArgs=""
+        />
+    </tests>
+    <releases relDir="package/rel/">
+    <release name="xconfig_suart"
+        pname="xconfig_suart.tar"
+        label="default"
+    >
+        <file name="package/package.bld.xml"/>
+        <file name="package/package.ext.xml"/>
+        <file name="package/package.rel.dot"/>
+        <file name="package/build.cfg"/>
+        <file name="package/package.xdc.inc"/>
+    </release>
+    </releases>
+    <repositories>
+    </repositories>
+</package>

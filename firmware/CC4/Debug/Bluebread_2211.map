@@ -1,0 +1,363 @@
+******************************************************************************
+       MSP430 Evaluation Linker PC v3.3.2                      
+******************************************************************************
+>> Linked Thu Jun 28 01:45:13 2012
+
+OUTPUT FILE NAME:   <Bluebread_2211.out>
+ENTRY POINT SYMBOL: "_c_int00"  address: 0000f9be
+
+
+MEMORY CONFIGURATION
+
+         name            origin    length      used     unused   attr    fill
+----------------------  --------  ---------  --------  --------  ----  --------
+  SFR                   00000000   00000010  00000000  00000010  RWIX
+  PERIPHERALS_8BIT      00000010   000000f0  00000000  000000f0  RWIX
+  PERIPHERALS_16BIT     00000100   00000100  00000000  00000100  RWIX
+  RAM                   00000200   00000080  00000056  0000002a  RWIX
+  INFOD                 00001000   00000040  00000000  00000040  RWIX
+  INFOC                 00001040   00000040  00000000  00000040  RWIX
+  INFOB                 00001080   00000040  00000000  00000040  RWIX
+  INFOA                 000010c0   00000040  00000000  00000040  RWIX
+  FLASH                 0000f800   000007e0  000003b0  00000430  RWIX
+  INT00                 0000ffe0   00000002  00000000  00000002  RWIX
+  INT01                 0000ffe2   00000002  00000000  00000002  RWIX
+  INT02                 0000ffe4   00000002  00000000  00000002  RWIX
+  INT03                 0000ffe6   00000002  00000000  00000002  RWIX
+  INT04                 0000ffe8   00000002  00000000  00000002  RWIX
+  INT05                 0000ffea   00000002  00000000  00000002  RWIX
+  INT06                 0000ffec   00000002  00000000  00000002  RWIX
+  INT07                 0000ffee   00000002  00000000  00000002  RWIX
+  INT08                 0000fff0   00000002  00000002  00000000  RWIX
+  INT09                 0000fff2   00000002  00000002  00000000  RWIX
+  INT10                 0000fff4   00000002  00000000  00000002  RWIX
+  INT11                 0000fff6   00000002  00000000  00000002  RWIX
+  INT12                 0000fff8   00000002  00000000  00000002  RWIX
+  INT13                 0000fffa   00000002  00000000  00000002  RWIX
+  INT14                 0000fffc   00000002  00000000  00000002  RWIX
+  RESET                 0000fffe   00000002  00000002  00000000  RWIX
+
+
+SECTION ALLOCATION MAP
+
+ output                                  attributes/
+section   page    origin      length       input sections
+--------  ----  ----------  ----------   ----------------
+xdc.meta   0    00000000    00000113     COPY SECTION
+                  00000000    00000113     suart_p430.o430 (xdc.meta)
+
+.pinit     0    0000f800    00000000     UNINITIALIZED
+
+.bss       0    00000200    00000016     UNINITIALIZED
+                  00000200    0000000d     suart.obj (.bss)
+                  0000020d    00000001     --HOLE--
+                  0000020e    00000004     rts430.lib : _lock.obj (.bss)
+                  00000212    00000004     ti.targets.msp430.rts430.a430 : boot.o430 (.bss)
+
+.stack     0    00000240    00000040     UNINITIALIZED
+                  00000240    00000002     ti.targets.msp430.rts430.a430 : boot.o430 (.stack)
+                  00000242    0000003e     --HOLE--
+
+.text      0    0000f800    0000038c     
+                  0000f800    000000b4     suart.obj (.text:main)
+                  0000f8b4    0000007e     suart.obj (.text:timer_A_ISR)
+                  0000f932    00000052     ti.targets.msp430.rts430.a430 : autoinit.o430 (.text:_auto_init)
+                  0000f984    0000003a     suart.obj (.text:transmit)
+                  0000f9be    00000032     ti.targets.msp430.rts430.a430 : boot.o430 (.text:_c_int00_noexit)
+                  0000f9f0    0000002c     suart.obj (.text:Timer_A2_CCR1_ISR)
+                  0000fa1c    0000002c     rts430.lib : lsl16.obj (.text)
+                  0000fa48    0000002a     csl.lib : CSL_init.obj (.text:TIMERA1_ISR_HOOK)
+                  0000fa72    0000002a     ti.targets.msp430.rts430.a430 : pre_init.o430 (.text:_system_pre_init)
+                  0000fa9c    00000028     csl.lib : BCSplus_init.obj (.text:BCSplus_init)
+                  0000fac4    00000026             : GPIO_init.obj (.text:GPIO_init)
+                  0000faea    00000024     suart.obj (.text:putstr)
+                  0000fb0e    0000001a     csl.lib : CSL_init.obj (.text:TIMERA0_ISR_HOOK)
+                  0000fb28    0000001a             : Timer_A2_init.obj (.text:Timer_A2_init)
+                  0000fb42    00000016             : CSL_init.obj (.text:CSL_init)
+                  0000fb58    00000012     rts430.lib : memcpy.obj (.text:memcpy)
+                  0000fb6a    00000010                : epilog.obj (.text)
+                  0000fb7a    00000008     csl.lib : WDTplus_init.obj (.text:WDTplus_init)
+                  0000fb82    00000004             : System_init.obj (.text:System_init)
+                  0000fb86    00000004     rts430.lib : exit.obj (.text:abort)
+                  0000fb8a    00000002                : _lock.obj (.text:_nop)
+
+.const     0    0000fb8c    0000001c     
+                  0000fb8c    0000001c     suart.obj (.const:.string)
+
+.cinit     0    0000fba8    00000008     
+                  0000fba8    00000005     suart.obj (.cinit)
+                  0000fbad    00000001     --HOLE-- [fill = 0]
+                  0000fbae    00000002     (.pad.cinit) [fill = 0]
+
+.int08     0    0000fff0    00000002     
+                  0000fff0    00000002     csl.lib : CSL_init.obj (.int08)
+
+.int09     0    0000fff2    00000002     
+                  0000fff2    00000002     csl.lib : CSL_init.obj (.int09)
+
+.reset     0    0000fffe    00000002     
+                  0000fffe    00000002     ti.targets.msp430.rts430.a430 : boot.o430 (.reset)
+
+
+GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name 
+
+address    name
+--------   ----
+00000200   .bss
+0000f800   .text
+00000057   BCSCTL1
+00000058   BCSCTL2
+00000053   BCSCTL3
+0000fa9c   BCSplus_init
+0000fb86   C$$EXIT
+00000059   CACTL1
+0000005a   CACTL2
+000010ff   CALBC1_1MHZ
+000010fe   CALDCO_1MHZ
+0000005b   CAPD
+0000fb42   CSL_init
+00000056   DCOCTL
+00000128   FCTL1
+0000012a   FCTL2
+0000012c   FCTL3
+0000fac4   GPIO_init
+00000000   IE1
+00000002   IFG1
+0000fa1c   I_LSL
+0000fa44   I_LSL_1
+0000fa32   I_LSL_10
+0000fa30   I_LSL_11
+0000fa2e   I_LSL_12
+0000fa2c   I_LSL_13
+0000fa2a   I_LSL_14
+0000fa28   I_LSL_15
+0000fa42   I_LSL_2
+0000fa40   I_LSL_3
+0000fa3e   I_LSL_4
+0000fa3c   I_LSL_5
+0000fa3a   I_LSL_6
+0000fa38   I_LSL_7
+0000fa36   I_LSL_8
+0000fa34   I_LSL_9
+00000022   P1DIR
+00000025   P1IE
+00000024   P1IES
+00000023   P1IFG
+00000020   P1IN
+00000021   P1OUT
+00000027   P1REN
+00000026   P1SEL
+0000002a   P2DIR
+0000002d   P2IE
+0000002c   P2IES
+0000002b   P2IFG
+00000028   P2IN
+00000029   P2OUT
+0000002f   P2REN
+0000002e   P2SEL
+00000208   Portloop
+0000fb82   System_init
+00000172   TACCR0
+00000174   TACCR1
+00000162   TACCTL0
+00000164   TACCTL1
+00000160   TACTL
+0000012e   TAIV
+00000170   TAR
+0000fb0e   TIMERA0_ISR_HOOK
+0000fa48   TIMERA1_ISR_HOOK
+0000f9f0   Timer_A2_CCR1_ISR
+0000fb28   Timer_A2_init
+00000120   WDTCTL
+0000fb7a   WDTplus_init
+00000000   __ASM__
+0000008e   __ISA__
+000000a0   __PLAT__
+00000280   __STACK_END
+00000040   __STACK_SIZE
+000000c4   __TARG__
+00000001   __TI_args_main
+00000001   __TI_auto_init
+00000001   __TI_exit
+000000ec   __TRDR__
+ffffffff   __binit__
+00000200   __bss__
+ffffffff   __c_args__
+0000fba8   __cinit__
+00000216   __end__
+0000fb8c   __etext__
+ffffffff   __pinit__
+0000f800   __text__
+0000f932   _auto_init
+0000f9be   _c_int00
+0000f9be   _c_int00_noexit
+00000212   _cleanup_ptr
+00000214   _dtors_ptr
+0000020e   _lock
+0000fb8a   _nop
+0000fffe   _reset_vector
+00000240   _stack
+0000fa72   _system_pre_init
+00000210   _unlock
+0000fb86   abort
+0000020c   bBusyRX
+ffffffff   binit
+00000200   bitCnt
+0000fba8   cinit
+00000216   end
+0000fb8c   etext
+0000fb76   func_epilog_1
+0000fb74   func_epilog_2
+0000fb72   func_epilog_3
+0000fb70   func_epilog_4
+0000fb6e   func_epilog_5
+0000fb6c   func_epilog_6
+0000fb6a   func_epilog_7
+0000f800   main
+0000fb58   memcpy
+ffffffff   pinit
+0000faea   putstr
+0000020a   rxByte
+0000020b   rxMask
+0000f8b4   timer_A_ISR
+0000f984   transmit
+00000202   txByte
+00000204   txPortStatus
+00000206   txPortStatusDelay
+00000000   xdc_runtime_Startup__EXECFXN__C
+00000000   xdc_runtime_Startup__RESETFXN__C
+00000000   xdc_runtime_Startup_exec__E
+00000000   xdc_runtime_Startup_reset__I
+
+
+GLOBAL SYMBOLS: SORTED BY Symbol Address 
+
+address    name
+--------   ----
+00000000   IE1
+00000000   __ASM__
+00000000   xdc_runtime_Startup__EXECFXN__C
+00000000   xdc_runtime_Startup__RESETFXN__C
+00000000   xdc_runtime_Startup_exec__E
+00000000   xdc_runtime_Startup_reset__I
+00000001   __TI_args_main
+00000001   __TI_auto_init
+00000001   __TI_exit
+00000002   IFG1
+00000020   P1IN
+00000021   P1OUT
+00000022   P1DIR
+00000023   P1IFG
+00000024   P1IES
+00000025   P1IE
+00000026   P1SEL
+00000027   P1REN
+00000028   P2IN
+00000029   P2OUT
+0000002a   P2DIR
+0000002b   P2IFG
+0000002c   P2IES
+0000002d   P2IE
+0000002e   P2SEL
+0000002f   P2REN
+00000040   __STACK_SIZE
+00000053   BCSCTL3
+00000056   DCOCTL
+00000057   BCSCTL1
+00000058   BCSCTL2
+00000059   CACTL1
+0000005a   CACTL2
+0000005b   CAPD
+0000008e   __ISA__
+000000a0   __PLAT__
+000000c4   __TARG__
+000000ec   __TRDR__
+00000120   WDTCTL
+00000128   FCTL1
+0000012a   FCTL2
+0000012c   FCTL3
+0000012e   TAIV
+00000160   TACTL
+00000162   TACCTL0
+00000164   TACCTL1
+00000170   TAR
+00000172   TACCR0
+00000174   TACCR1
+00000200   .bss
+00000200   __bss__
+00000200   bitCnt
+00000202   txByte
+00000204   txPortStatus
+00000206   txPortStatusDelay
+00000208   Portloop
+0000020a   rxByte
+0000020b   rxMask
+0000020c   bBusyRX
+0000020e   _lock
+00000210   _unlock
+00000212   _cleanup_ptr
+00000214   _dtors_ptr
+00000216   __end__
+00000216   end
+00000240   _stack
+00000280   __STACK_END
+000010fe   CALDCO_1MHZ
+000010ff   CALBC1_1MHZ
+0000f800   .text
+0000f800   __text__
+0000f800   main
+0000f8b4   timer_A_ISR
+0000f932   _auto_init
+0000f984   transmit
+0000f9be   _c_int00
+0000f9be   _c_int00_noexit
+0000f9f0   Timer_A2_CCR1_ISR
+0000fa1c   I_LSL
+0000fa28   I_LSL_15
+0000fa2a   I_LSL_14
+0000fa2c   I_LSL_13
+0000fa2e   I_LSL_12
+0000fa30   I_LSL_11
+0000fa32   I_LSL_10
+0000fa34   I_LSL_9
+0000fa36   I_LSL_8
+0000fa38   I_LSL_7
+0000fa3a   I_LSL_6
+0000fa3c   I_LSL_5
+0000fa3e   I_LSL_4
+0000fa40   I_LSL_3
+0000fa42   I_LSL_2
+0000fa44   I_LSL_1
+0000fa48   TIMERA1_ISR_HOOK
+0000fa72   _system_pre_init
+0000fa9c   BCSplus_init
+0000fac4   GPIO_init
+0000faea   putstr
+0000fb0e   TIMERA0_ISR_HOOK
+0000fb28   Timer_A2_init
+0000fb42   CSL_init
+0000fb58   memcpy
+0000fb6a   func_epilog_7
+0000fb6c   func_epilog_6
+0000fb6e   func_epilog_5
+0000fb70   func_epilog_4
+0000fb72   func_epilog_3
+0000fb74   func_epilog_2
+0000fb76   func_epilog_1
+0000fb7a   WDTplus_init
+0000fb82   System_init
+0000fb86   C$$EXIT
+0000fb86   abort
+0000fb8a   _nop
+0000fb8c   __etext__
+0000fb8c   etext
+0000fba8   __cinit__
+0000fba8   cinit
+0000fffe   _reset_vector
+ffffffff   __binit__
+ffffffff   __c_args__
+ffffffff   __pinit__
+ffffffff   binit
+ffffffff   pinit
+
+[125 symbols]
