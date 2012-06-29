@@ -1,20 +1,21 @@
-//*****************************************************************************
-//   Software UART using Timer_A
-//
-//   Description: This example illustrates how to output characters 
-//   to an RS-232 serial port without a UART peripheral.
-//
-//                   MSP430
-//             -----------------
-//         /|\|              XIN|-
-//          | |                 |
-//          --|RST          XOUT|-
-//            |                 |
-//            |             P1.1|-->TXD
-//            |             P1.2|<--RXD
-//
-//   Texas Instruments Inc.
-//*****************************************************************************
+/** Bluebread software uart implementation
+ 
+    @based on Software UART using Timer_A from Texas Instruments Inc.
+
+
+                   MSP430
+             -----------------
+         /|\|              XIN|-
+          | |                 |
+          --|RST          XOUT|-
+            |                 |
+            |             P1.1|-->TXD
+            |             P1.2|<--RXD
+
+
+    @author Rogerio Bulha Siqueira
+    @date   29/06/2012
+ */
 
 /*
  * ======== Standard MSP430 includes ========
@@ -44,15 +45,23 @@ volatile unsigned char rxByte;
 volatile unsigned char rxMask;
 volatile unsigned char bBusyRX=0;
 
+typedef void (*rx_routine_type)(unsigned char);
+volatile static rx_routine_type *pf_rx_callback = 0;
+
 void putstr(char *str);                 // transmit string 
 void transmit(unsigned char ch);        // transmit a character
+void init_uart(void *callback)
+void rx_uart_cb(unsigned char rxch);
 
 /*
  *  ======== main ========
+    (testing routine by now)
  */
 int main(void)
 {
     CSL_init();                         // Activate Grace-generated config
+
+    init_uart(&rx_uart_cb);
 
 	P1OUT |= 0x01; //LED
 	
@@ -62,16 +71,7 @@ int main(void)
 	
     while (1) 
     {
-    	if(bBusyRX)
-		{
-    		while(bBusyRX);
-			switch(rxByte)
-			{
-				case 0x61: putstr("ok");
-				break;	
-			}	
-		}
-		else if(txPortStatusDelay++ == 5200)
+		if(txPortStatusDelay++ == 5200)
     	{
 	        putstr("Port1:[ ");
 	        txPortStatus = 0x08;
@@ -88,6 +88,31 @@ int main(void)
 	        P1OUT ^= 0x01;
     	}
     }
+}
+
+/**end of reception callback function.
+   passed to init_uart
+   @param rxch is the received UART byte
+*/
+void rx_uart_cb(unsigned char rxch)
+{
+    putstr("ok");
+}
+
+/** Init soft uart port and timer
+    
+    @note it uses a call back to improve low power, the main code don't 
+    need to wait the end of transmition
+
+    @param callback point to a function like: void func(unsigned char rxch)
+    put 0 if you don't want to use a callback function
+*/
+void init_uart(void *callback)
+{
+    P1IES |= 0x04;      // RXD Hi/lo edge interrupt on port P1.2
+    P1IFG &= ~0x04;     // Clear RXD (flag) before enabling interrupt
+    P1IE  |= 0x04;      // Enable RXD interrupt    
+    pf_rx_callback = (rx_routine_type*)callback;
 }
 
 /*
@@ -116,16 +141,14 @@ void transmit(unsigned char ch)
     while (CCTL0 & CCIE);               // Wait for ISR to complete TX
 }
 
-/*
- *  ======== timer_A_ISR ========
- *  Timer A0 interrupt service routine
+/** Timer A0 interrupt service routine
  */
 void timer_A_ISR(void)
 {
     CCR0 += BITIME;                     // Schedule next interrupt
     if(bBusyRX)
     {
-    	if(CCTL1 & SCCI)
+    	if((P1IN & 0x04) == 0x04)
     		rxByte |= rxMask;
     	else
     		rxByte &= ~rxMask;
@@ -134,8 +157,10 @@ void timer_A_ISR(void)
 		{
 			bBusyRX = 0;
 			CCTL0 &= ~CCIE;  // All bits received, disable interrupt
-			CCTL1 |= CAP;    // set to capture start bit
-			CCTL1 |= CCIE;   //enable ISR to rceive next start bit.
+            P1IFG &= ~0x04;  // Clear RXD (flag) before enabling interrupt
+            P1IE  |= 0x04;   // Enable RXD interrupt that wait for the next start bit.    
+            if(pf_rx_callback)
+                pf_rx_callback(rxByte);
 		}
     	else	
     		rxMask = rxMask << 1;
@@ -158,19 +183,19 @@ void timer_A_ISR(void)
     }
 }
 
-/** ISR routine P1.2 on rising edge
+/** ISR routine P1.2 on falling edge
  * @note generate by Grace
  * @author Rogerio Bulha Siqueria
  * @date 27/06/2012
  */ 
 void Timer_A2_CCR1_ISR(void)
 {
-	CCTL1 &= ~CCIE; //receive start bit stop interruption
-	CCTL1 &= ~CAP;  // set to sample input bit
-	bBusyRX = 1; //put UART busy for reception
+    P1IFG &= ~0x04;   // Clear RXD (flag) 
+    P1IE  &= ~0x04;   // stop interruption until end of reception   
+	bBusyRX = 1;      // put UART busy for reception
 	rxByte = 0x00;
 	rxMask = 0x01;
 	CCR0 = TAR + HBITIME; // Schedule next interrupt half bit time.
-	CCTL0 |= CCIE; //enable reception
+	CCTL0 |= CCIE;        // enable reception timer
 }
 
