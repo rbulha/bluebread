@@ -40,9 +40,23 @@ void CSL_init(void)
 #include <ti/mcu/msp430/include/msp430.h>
 
 /* Interrupt Function Prototypes */
-extern void timer_A_ISR(void);
 extern void Timer_A2_CCR1_ISR(void);
+extern void timer_A_ISR(void);
 
+
+/*
+ *  ======== PORT1 Interrupt Service Routine ========
+ */
+#pragma vector=PORT1_VECTOR
+__interrupt void PORT1_ISR_HOOK(void)
+{
+
+
+	/* Port 1 Interrupt Handler */
+	Timer_A2_CCR1_ISR();
+
+	/* No change in operating mode on exit */
+}
 /*
  *  ======== Timer_A2 Interrupt Service Routine ======== 
  */
@@ -55,23 +69,4 @@ __interrupt void TIMERA0_ISR_HOOK(void)
 	/* No change in operating mode on exit */
 }
 
-/*
- *  ======== Timer_A2 Interrupt Service Routine ======== 
- */
-#pragma vector=TIMERA1_VECTOR
-__interrupt void TIMERA1_ISR_HOOK(void)
-{
-
-    switch (__even_in_range(TAIV, TAIV_TAIFG))    // Efficient switch-implementation
-    {
-        case TAIV_TACCR1:
-            /* Capture Compare Register 1 ISR Hook Function Name */
-            Timer_A2_CCR1_ISR();
-
-            /* No change in operating mode on exit */
-            break;
-        case TAIV_TAIFG:
-            break;
-    }
-}
 

@@ -15,7 +15,7 @@
 <stringAttribute key="org.eclipse.cdt.launch.MEMORY_BLOCKS" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#13;&#10;&lt;memoryBlockExpressionList/&gt;&#13;&#10;"/>
 <stringAttribute key="com.ti.ccstudio.debug.core.MRU_PROGRAM_NAME" value="D:\Documents and Settings\Rogerio\Meus documentos\workspace\workspace4.2\Bluebread_2211\Debug\Bluebread_2211.out"/>
 <stringAttribute key="CCEDebugOptions.CONNECTION_CONFIGURATION_FILE" value="common/targetdb/connections/TIMSP430-USB.xml"/>
-<stringAttribute key="com.ti.ccstudio.debug.core.MRU_MODULES" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#13;&#10;&lt;modules&gt;&#13;&#10;&lt;module name=&quot;D:\Documents and Settings\Rogerio\Meus documentos\workspace\workspace4.2\Bluebread_2211\Debug\Bluebread_2211.out&quot; time=&quot;Thu Jun 28 01:45:27 BRT 2012&quot; time_long=&quot;1340858727466&quot;/&gt;&#13;&#10;&lt;/modules&gt;&#13;&#10;"/>
+<stringAttribute key="com.ti.ccstudio.debug.core.MRU_MODULES" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#13;&#10;&lt;modules&gt;&#13;&#10;&lt;module name=&quot;D:\Documents and Settings\Rogerio\Meus documentos\workspace\workspace4.2\Bluebread_2211\Debug\Bluebread_2211.out&quot; time=&quot;Fri Jun 29 21:35:24 BRT 2012&quot; time_long=&quot;1341016524242&quot;/&gt;&#13;&#10;&lt;/modules&gt;&#13;&#10;"/>
 <stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="Bluebread_2211"/>
 <stringAttribute key="CCEDebugOptions.CPU_NAME" value="TI MSP430 USB1/MSP430"/>
 <stringAttribute key="org.eclipse.cdt.launch.GLOBAL_VARIABLES" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#13;&#10;&lt;globalVariableList/&gt;&#13;&#10;"/>

@@ -27,20 +27,6 @@ void Timer_A2_init(void)
      */
     TACCTL0 = CM_0 + CCIS_0 + OUTMOD_0 + CCIE + OUT;
 
-    /* 
-     * TACCTL1, Capture/Compare Control Register 1
-     * 
-     * CM_2 -- Falling Edge
-     * CCIS_0 -- CCIxA
-     * SCS -- Sychronous Capture
-     * ~SCCI -- Latched capture signal (read)
-     * CAP -- Capture mode
-     * OUTMOD_5 -- PWM output mode: 5 - Reset
-     * 
-     * Note: ~SCCI indicates that SCCI has value zero
-     */
-    TACCTL1 = CM_2 + CCIS_0 + SCS + CAP + OUTMOD_5 + CCIE;
-
     /* TACCR0, Timer_A Capture/Compare Register 0 */
     TACCR0 = 1200;
 

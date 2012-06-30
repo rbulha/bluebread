@@ -904,8 +904,8 @@
           </elem>
           <elem>
             <struct id="ti.catalog.msp430.peripherals.gpio.GPIO_MSP430G2x11.Instance#0/devicePinSetting/0/2">
-              <field name="functionIndex">0x2</field>
-              <field name="owner">xdc.services.intern.xsr.Value$Obj@11adeb7::ti.mcu.msp430.csl.timer.Timer_A2</field>
+              <field name="functionIndex">0x0</field>
+              <field name="owner">undefined</field>
             </struct>
           </elem>
           <elem>
@@ -994,7 +994,7 @@
       </elem>
     </vector>
   </field>
-  <field name="comparator">xdc.services.intern.xsr.Value$Obj@842e74::(ti.catalog.msp430.peripherals.comparator.IComparator.Instance)ti.catalog.msp430.peripherals.comparator.Comparator_Aplus.Instance#0</field>
+  <field name="comparator">xdc.services.intern.xsr.Value$Obj@6765::(ti.catalog.msp430.peripherals.comparator.IComparator.Instance)ti.catalog.msp430.peripherals.comparator.Comparator_Aplus.Instance#0</field>
   <field name="devicePins">
     <vector id="ti.catalog.msp430.peripherals.gpio.GPIO_MSP430G2x11.Instance#0/devicePins" length="2">
       <elem>
@@ -2319,7 +2319,7 @@
     <struct id="ti.catalog.msp430.peripherals.gpio.GPIO_MSP430G2x11.Instance#0/P1SEL">
       <field name="Bit0">BIT0_OFF</field>
       <field name="Bit1">BIT1</field>
-      <field name="Bit2">BIT2</field>
+      <field name="Bit2">BIT2_OFF</field>
       <field name="Bit3">BIT3_OFF</field>
       <field name="Bit4">BIT4_OFF</field>
       <field name="Bit5">BIT5_OFF</field>
@@ -2355,7 +2355,7 @@
     <struct id="ti.catalog.msp430.peripherals.gpio.GPIO_MSP430G2x11.Instance#0/P1IES">
       <field name="Bit0">BIT0_OFF</field>
       <field name="Bit1">BIT1_OFF</field>
-      <field name="Bit2">BIT2_OFF</field>
+      <field name="Bit2">BIT2</field>
       <field name="Bit3">BIT3_OFF</field>
       <field name="Bit4">BIT4_OFF</field>
       <field name="Bit5">BIT5_OFF</field>
@@ -2379,7 +2379,7 @@
     <struct id="ti.catalog.msp430.peripherals.gpio.GPIO_MSP430G2x11.Instance#0/P1IE">
       <field name="Bit0">BIT0_OFF</field>
       <field name="Bit1">BIT1_OFF</field>
-      <field name="Bit2">BIT2_OFF</field>
+      <field name="Bit2">BIT2</field>
       <field name="Bit3">BIT3_OFF</field>
       <field name="Bit4">BIT4_OFF</field>
       <field name="Bit5">BIT5_OFF</field>
@@ -2476,7 +2476,7 @@
             <feature name="defs" type="ti.catalog.msp430.peripherals.gpio.IGPIO.Module">
             </feature>
             <feature name="deviceName" type="string" value="MSP430G2211"/>
-            <feature name="port1IntHandler" type="string" value=""/>
+            <feature name="port1IntHandler" type="string" value="Timer_A2_CCR1_ISR"/>
             <feature name="port1OperatingModeOnExit" type="object" value="ti.mcu.msp430.csl.IGen.KEEP"/>
             <feature name="port2IntHandler" type="string" value=""/>
             <feature name="port2OperatingModeOnExit" type="object" value="ti.mcu.msp430.csl.IGen.KEEP"/>
@@ -2760,7 +2760,7 @@
             <feature name="ccr0TimerSelection_BasicView" type="object" value="ti.mcu.msp430.csl.timer.ITimer.CCR0TimerSelection_BasicView_Selection_3"/>
             <feature name="ccrXTimerSelection_BasicView" type="object"><vector id="ti.mcu.msp430.csl.timer.Timer_A2/ccrXTimerSelection_BasicView" length="8">
   <elem>CCRxTimerSelection_BasicView_Selection_0</elem>
-  <elem>CCRxTimerSelection_BasicView_Selection_2</elem>
+  <elem>CCRxTimerSelection_BasicView_Selection_0</elem>
   <elem>CCRxTimerSelection_BasicView_Selection_0</elem>
   <elem>CCRxTimerSelection_BasicView_Selection_0</elem>
   <elem>CCRxTimerSelection_BasicView_Selection_0</elem>
@@ -2772,7 +2772,7 @@
             <feature name="ccr0TimerSelection_PowerUser" type="object" value="ti.mcu.msp430.csl.timer.ITimer.CCR0TimerSelection_PowerUser_Selection_1"/>
             <feature name="ccrXTimerSelection_PowerUser" type="object"><vector id="ti.mcu.msp430.csl.timer.Timer_A2/ccrXTimerSelection_PowerUser" length="8">
   <elem>CCRxTimerSelection_PowerUser_Selection_0</elem>
-  <elem>CCRxTimerSelection_PowerUser_Selection_2</elem>
+  <elem>CCRxTimerSelection_PowerUser_Selection_0</elem>
   <elem>CCRxTimerSelection_PowerUser_Selection_0</elem>
   <elem>CCRxTimerSelection_PowerUser_Selection_0</elem>
   <elem>CCRxTimerSelection_PowerUser_Selection_0</elem>
@@ -2807,7 +2807,7 @@
             <feature name="ctrOverflowOperatingModeOnExit" type="object" value="ti.mcu.msp430.csl.IGen.KEEP"/>
             <feature name="ccr0InterruptHandler" type="string" value="timer_A_ISR"/>
             <feature name="ccr0OperatingModeOnExit" type="object" value="ti.mcu.msp430.csl.IGen.KEEP"/>
-            <feature name="ccr1InterruptHandler" type="string" value="Timer_A2_CCR1_ISR"/>
+            <feature name="ccr1InterruptHandler" type="string" value=""/>
             <feature name="ccr1OperatingModeOnExit" type="object" value="ti.mcu.msp430.csl.IGen.KEEP"/>
             <feature name="ccr2InterruptHandler" type="string" value=""/>
             <feature name="ccr2OperatingModeOnExit" type="object" value="ti.mcu.msp430.csl.IGen.KEEP"/>
@@ -2837,7 +2837,7 @@
             </feature>
             <feature name="TxxCCRx_OUTbit" type="object"><vector id="ti.mcu.msp430.csl.timer.Timer_A2/TxxCCRx_OUTbit" length="8">
   <elem>true</elem>
-  <elem>false</elem>
+  <elem>true</elem>
   <elem>true</elem>
   <elem>true</elem>
   <elem>true</elem>
@@ -2982,12 +2982,12 @@
   </elem>
   <elem>
     <vector id="ti.mcu.msp430.csl.timer.Timer_A2/showContMode_OUTMOD/1" length="8">
-      <elem>false</elem>
-      <elem>false</elem>
-      <elem>false</elem>
-      <elem>false</elem>
-      <elem>false</elem>
       <elem>true</elem>
+      <elem>false</elem>
+      <elem>false</elem>
+      <elem>false</elem>
+      <elem>false</elem>
+      <elem>false</elem>
       <elem>false</elem>
       <elem>false</elem>
     </vector>
@@ -3249,7 +3249,7 @@
             <feature name="showCCRxBlocks" type="boolean" value="false"/>
             <feature name="enableInputCaptureBlocks" type="object"><vector id="ti.mcu.msp430.csl.timer.Timer_A2/enableInputCaptureBlocks" length="8">
   <elem>false</elem>
-  <elem>true</elem>
+  <elem>false</elem>
   <elem>false</elem>
   <elem>false</elem>
   <elem>false</elem>
@@ -3322,7 +3322,7 @@
             <feature name="ccrOutputPin" type="object"><vector id="ti.mcu.msp430.csl.timer.Timer_A2/ccrOutputPin" length="8">
   <elem>undefined</elem>
   <elem>undefined</elem>
-  <elem>0x0</elem>
+  <elem>undefined</elem>
   <elem>undefined</elem>
   <elem>undefined</elem>
   <elem>undefined</elem>
@@ -3357,7 +3357,7 @@
             </feature>
             <feature name="ccInputPin" type="object"><vector id="ti.mcu.msp430.csl.timer.Timer_A2/ccInputPin" length="8">
   <elem>0x0</elem>
-  <elem>0x1</elem>
+  <elem>0x0</elem>
   <elem>undefined</elem>
   <elem>undefined</elem>
   <elem>undefined</elem>
@@ -3441,7 +3441,7 @@
   <field name="baseAddr">0x160</field>
   <field name="intNum">0x9</field>
   <field name="numberOfTimers">0x2</field>
-  <field name="clock">xdc.services.intern.xsr.Value$Obj@e32bd0::(ti.catalog.msp430.peripherals.clock.IClock.Instance)ti.catalog.msp430.peripherals.clock.BCSplus.Instance#0</field>
+  <field name="clock">xdc.services.intern.xsr.Value$Obj@1d92c2c::(ti.catalog.msp430.peripherals.clock.IClock.Instance)ti.catalog.msp430.peripherals.clock.BCSplus.Instance#0</field>
   <field name="TACLK">0x0</field>
   <field name="INCLK">0x0</field>
   <field name="TACTL">
@@ -3471,13 +3471,13 @@
   </field>
   <field name="TACCTL1">
     <struct id="ti.catalog.msp430.peripherals.timer.Timer_A2.Instance#0/TACCTL1">
-      <field name="CM">CM_2</field>
+      <field name="CM">CM_0</field>
       <field name="CCIS">CCIS_0</field>
-      <field name="SCS">SCS</field>
+      <field name="SCS">SCS_OFF</field>
       <field name="SCCI">SCCI_OFF</field>
-      <field name="CAP">CAP</field>
-      <field name="OUTMOD">OUTMOD_5</field>
-      <field name="CCIE">CCIE</field>
+      <field name="CAP">CAP_OFF</field>
+      <field name="OUTMOD">OUTMOD_0</field>
+      <field name="CCIE">CCIE_OFF</field>
       <field name="CCI">CCI_OFF</field>
       <field name="OUT">OUT_OFF</field>
       <field name="COV">COV_OFF</field>
@@ -3533,8 +3533,8 @@
             </feature>
             <feature name="TxxR" type="undefined" value="undefined"/>
             <feature name="TxxCCTLx" type="object"><vector id="ti.mcu.msp430.csl.timer.Timer_A2/TxxCCTLx" length="8">
-  <elem>xdc.services.intern.xsr.Value$Obj@4101a0::ti.catalog.msp430.peripherals.timer.Timer_A2.Instance#0/TACCTL0</elem>
-  <elem>xdc.services.intern.xsr.Value$Obj@1d1dca4::ti.catalog.msp430.peripherals.timer.Timer_A2.Instance#0/TACCTL1</elem>
+  <elem>xdc.services.intern.xsr.Value$Obj@3b702a::ti.catalog.msp430.peripherals.timer.Timer_A2.Instance#0/TACCTL0</elem>
+  <elem>xdc.services.intern.xsr.Value$Obj@4101a0::ti.catalog.msp430.peripherals.timer.Timer_A2.Instance#0/TACCTL1</elem>
   <elem>undefined</elem>
   <elem>undefined</elem>
   <elem>undefined</elem>
@@ -3561,7 +3561,7 @@
   <field name="baseAddr">0x160</field>
   <field name="intNum">0x9</field>
   <field name="numberOfTimers">0x2</field>
-  <field name="clock">xdc.services.intern.xsr.Value$Obj@e32bd0::(ti.catalog.msp430.peripherals.clock.IClock.Instance)ti.catalog.msp430.peripherals.clock.BCSplus.Instance#0</field>
+  <field name="clock">xdc.services.intern.xsr.Value$Obj@1d92c2c::(ti.catalog.msp430.peripherals.clock.IClock.Instance)ti.catalog.msp430.peripherals.clock.BCSplus.Instance#0</field>
   <field name="TACLK">0x0</field>
   <field name="INCLK">0x0</field>
   <field name="TACTL">
@@ -3591,13 +3591,13 @@
   </field>
   <field name="TACCTL1">
     <struct id="ti.catalog.msp430.peripherals.timer.Timer_A2.Instance#0/TACCTL1">
-      <field name="CM">CM_2</field>
+      <field name="CM">CM_0</field>
       <field name="CCIS">CCIS_0</field>
-      <field name="SCS">SCS</field>
+      <field name="SCS">SCS_OFF</field>
       <field name="SCCI">SCCI_OFF</field>
-      <field name="CAP">CAP</field>
-      <field name="OUTMOD">OUTMOD_5</field>
-      <field name="CCIE">CCIE</field>
+      <field name="CAP">CAP_OFF</field>
+      <field name="OUTMOD">OUTMOD_0</field>
+      <field name="CCIE">CCIE_OFF</field>
       <field name="CCI">CCI_OFF</field>
       <field name="OUT">OUT_OFF</field>
       <field name="COV">COV_OFF</field>

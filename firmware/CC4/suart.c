@@ -3,14 +3,14 @@
     @based on Software UART using Timer_A from Texas Instruments Inc.
 
 
-                   MSP430
-             -----------------
-         /|\|              XIN|-
-          | |                 |
-          --|RST          XOUT|-
-            |                 |
-            |             P1.1|-->TXD
-            |             P1.2|<--RXD
+               MSP430
+         -----------------
+     /|\|              XIN|-
+      | |                 |
+      --|RST          XOUT|-
+        |                 |
+        |             P1.1|-->TXD
+        |             P1.2|<--RXD
 
 
     @author Rogerio Bulha Siqueira
@@ -34,23 +34,24 @@
  *    Timer_A input divider = 8 (=> timer freq = 125 KHz)
  */
 #define BITIME  (13)                // 125 KHz /(13*4) = 2404 bits/sec
-#define HBITIME  (6)                //half bit time
+#define HBITIME  (7)                //half bit time
+
+typedef void (*rx_routine_type)(unsigned char);
+
+rx_routine_type *pf_rx_callback;
  
 unsigned char bitCnt;                   // number of bits to transmit
 unsigned int  txByte;                   // transmit buffer with start/stop bits
 unsigned char txPortStatus; 
-unsigned int  txPortStatusDelay;
 unsigned int  Portloop; 
 volatile unsigned char rxByte;
 volatile unsigned char rxMask;
 volatile unsigned char bBusyRX=0;
-
-typedef void (*rx_routine_type)(unsigned char);
-volatile static rx_routine_type *pf_rx_callback = 0;
+volatile unsigned char txNow=0;
 
 void putstr(char *str);                 // transmit string 
 void transmit(unsigned char ch);        // transmit a character
-void init_uart(void *callback)
+void init_uart(void *callback);
 void rx_uart_cb(unsigned char rxch);
 
 /*
@@ -61,32 +62,48 @@ int main(void)
 {
     CSL_init();                         // Activate Grace-generated config
 
-    init_uart(&rx_uart_cb);
+    init_uart(rx_uart_cb);
 
 	P1OUT |= 0x01; //LED
 	
 	P1OUT |= 0x40; //Key
 	
-	txPortStatusDelay = 0;
+	putstr("Blue bread terminal - ON\r\n");
 	
     while (1) 
     {
-		if(txPortStatusDelay++ == 5200)
+    	if(txNow)
     	{
-	        putstr("Port1:[ ");
-	        txPortStatus = 0x08;
-	        for(Portloop=0;Portloop<3;Portloop++)
-	        {
-	        	txPortStatus = txPortStatus << Portloop; 
-		        if( (P1IN & txPortStatus) == txPortStatus )
-		        	putstr(" 1 ");
-		        else	
-		        	putstr(" 0 ");
-	        }
-	        putstr(" ]\n\r");
-	        txPortStatusDelay = 0;
-	        P1OUT ^= 0x01;
+    		switch(rxByte)
+    		{
+    			case 'a':
+    				putstr("P1|b3 |b4 |b5 |\r\n");
+			        putstr("  |");
+			        txPortStatus = 0x08;
+			        for(Portloop=0;Portloop<3;Portloop++)
+			        {
+			        	txPortStatus = txPortStatus << Portloop; 
+				        if( (P1IN & txPortStatus) == txPortStatus )
+				        	putstr(" 1 |");
+				        else	
+				        	putstr(" 0 |");
+			        }
+			        putstr("\n\r");
+	        		break;
+	        	case 't':
+	        	    P1OUT ^= 0x01;
+	        	    putstr("Toggle LED\r\n");
+	        		break;	
+	        	case 'v':
+	        	    putstr("Bluebread version 1.0.0\r\n");
+	        		break;	
+    			default:	
+    				putstr("ok\r\n");
+    				break;
+    		}
+    		txNow = 0;
     	}
+		 //__bis_SR_register(CPUOFF + GIE);  // Enter LPM3
     }
 }
 
@@ -96,7 +113,7 @@ int main(void)
 */
 void rx_uart_cb(unsigned char rxch)
 {
-    putstr("ok");
+	txNow = 1;
 }
 
 /** Init soft uart port and timer
@@ -143,8 +160,11 @@ void transmit(unsigned char ch)
 
 /** Timer A0 interrupt service routine
  */
-void timer_A_ISR(void)
+unsigned short timer_A_ISR(void)
 {
+ 	// Initialize return status to not change state
+    unsigned short status = 0;	
+    
     CCR0 += BITIME;                     // Schedule next interrupt
     if(bBusyRX)
     {
@@ -160,7 +180,10 @@ void timer_A_ISR(void)
             P1IFG &= ~0x04;  // Clear RXD (flag) before enabling interrupt
             P1IE  |= 0x04;   // Enable RXD interrupt that wait for the next start bit.    
             if(pf_rx_callback)
-                pf_rx_callback(rxByte);
+            {
+               rx_uart_cb(rxByte);
+               //status = LPM3_bits; // Exit LPM0 on return
+            }
 		}
     	else	
     		rxMask = rxMask << 1;
@@ -181,6 +204,8 @@ void timer_A_ISR(void)
 	        bitCnt--;
 	    }
     }
+    
+    return status;
 }
 
 /** ISR routine P1.2 on falling edge
@@ -195,7 +220,7 @@ void Timer_A2_CCR1_ISR(void)
 	bBusyRX = 1;      // put UART busy for reception
 	rxByte = 0x00;
 	rxMask = 0x01;
-	CCR0 = TAR + HBITIME; // Schedule next interrupt half bit time.
+	CCR0 = TAR + BITIME; // Schedule next interrupt half bit time.
 	CCTL0 |= CCIE;        // enable reception timer
 }
 
