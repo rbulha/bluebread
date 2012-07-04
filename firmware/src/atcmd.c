@@ -9,6 +9,8 @@
 
 #define CMD_SIZE 4
 
+typedef void (*at_rvc_func_type)(unsigned char);
+
 static unsigned char aucatlookupt1[] = {'A','T'};
 static unsigned char aucatlookupt2[] = {'+'};
 static unsigned char aucatlookupt3[] = {'N','A','M','E'};
@@ -31,6 +33,8 @@ enum ealookuptmti{
 enum eatintr{
   E_IDLE=0,
   E_RECVING_AT,
+  E_RECVING_MORE,
+  E_RECVING_RW,
   E_RECVING_CMD,
   E_LAST
 };
@@ -39,6 +43,8 @@ enum eatintrrc{
   E_NONE=0,
   E_OK,
   E_ERROR,
+  E_READ,
+  E_WRITE,
   E_BUFFER,
   E_RC_LAST
 };
@@ -82,6 +88,7 @@ unsigned char at_inter(unsigned char tk)
       }
       else
       {
+        s_at_inter.state = E_IDLE;
         return E_ERROR;
       }    
     break;
@@ -94,6 +101,7 @@ unsigned char at_inter(unsigned char tk)
       }
       else if(tk == '\r')
       {
+        s_at_inter.state = E_IDLE;
         return E_OK; //only answer OK 
       }
     break;
@@ -101,25 +109,43 @@ unsigned char at_inter(unsigned char tk)
       while(tk != aucatlookupt[s_at_inter.rx_cmd_idx][s_at_inter.rx_idx])
       {
         if(++s_at_inter.rx_cmd_idx >= E_LT_CMD_LAST)
+        {
+          s_at_inter.state = E_IDLE;
           return E_ERROR;
+        }
 
         for(i=0; i<s_at_inter.rx_idx; i++)
         {
           if(s_at_inter.cmd[s_at_inter.rx_idx] != aucatlookupt[s_at_inter.rx_cmd_idx][i])        
             if(++s_at_inter.rx_cmd_idx >= E_LT_CMD_LAST)
+            {
+              s_at_inter.state = E_IDLE;
               return E_ERROR;
+            }
             else
               break;  
         }
       }
       s_at_inter.cmd[s_at_inter.rx_idx] = tk;
       if(++s_at_inter.rx_idx == CMD_SIZE)
-        s_at_inter.state = E_EXEC_CMD;
+        s_at_inter.state = E_RECVING_RW;
     break;
-    case E_EXEC_CMD:
+    case E_RECVING_RW:
+      switch(tk)
+      {
+        case '?' : /**Inquire command*/
+        s_at_inter.state = E_IDLE;
+        return E_READ;
+        case '=' : /**Assignment command*/
+        s_at_inter.state = E_IDLE;
+        return E_WRITE;
+        default: 
+        s_at_inter.state = E_IDLE;
+        return E_NONE;
+      }
     break;
-    case E_IDLE:
-    break;
-    default: return E_NONE;
+    default: 
+    s_at_inter.state = E_IDLE;
+    return E_NONE;
   }
 }
