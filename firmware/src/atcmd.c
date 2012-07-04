@@ -9,15 +9,13 @@
 
 #define CMD_SIZE 4
 
-typedef void (*at_rvc_func_type)(unsigned char);
-
 static unsigned char aucatlookupt1[] = {'A','T'};
 static unsigned char aucatlookupt2[] = {'+'};
 static unsigned char aucatlookupt3[] = {'N','A','M','E'};
 static unsigned char aucatlookupt4[] = {'P','O','R','T'};
 static unsigned char aucatlookupt5[] = {'V','E','R','S'};
 /** Master table */
-static unsigned char aucatlookuptM[] = {aucatlookupt1,aucatlookupt2,aucatlookupt3,aucatlookupt4,aucatlookupt5};
+static unsigned char *aucatlookuptM[] = {aucatlookupt1,aucatlookupt2,aucatlookupt3,aucatlookupt4,aucatlookupt5};
 
 /** Master table index */
 enum ealookuptmti{
@@ -43,6 +41,7 @@ enum eatintrrc{
   E_NONE=0,
   E_OK,
   E_ERROR,
+  E_ACK,
   E_READ,
   E_WRITE,
   E_BUFFER,
@@ -66,7 +65,12 @@ void at_init()
   s_at_inter.rx_cmd_idx = 0;
 }
 
-unsigned char at_inter(unsigned char tk)
+int at_get_last_cmd()
+{
+    return s_at_inter.rx_cmd_idx;
+}
+
+int at_inter(unsigned char tk)
 {
   unsigned char i;
   
@@ -82,7 +86,7 @@ unsigned char at_inter(unsigned char tk)
       } 
     break;
     case E_RECVING_AT:
-      if(tk == aucatlookupt[E_LT_AT][s_at_inter.rx_idx++])
+      if(tk == aucatlookuptM[E_LT_AT][s_at_inter.rx_idx++])
       {
         s_at_inter.state = E_RECVING_MORE;
       }
@@ -93,7 +97,7 @@ unsigned char at_inter(unsigned char tk)
       }    
     break;
     case E_RECVING_MORE:
-      if(tk == aucatlookupt[E_LT_MORE][0])
+      if(tk == aucatlookuptM[E_LT_MORE][0])
       {
         s_at_inter.state = E_RECVING_CMD;
         s_at_inter.rx_idx = 0;
@@ -102,11 +106,11 @@ unsigned char at_inter(unsigned char tk)
       else if(tk == '\r')
       {
         s_at_inter.state = E_IDLE;
-        return E_OK; //only answer OK 
+        return E_ACK; //AT acknowledge  
       }
     break;
     case E_RECVING_CMD:
-      while(tk != aucatlookupt[s_at_inter.rx_cmd_idx][s_at_inter.rx_idx])
+      while(tk != aucatlookuptM[s_at_inter.rx_cmd_idx][s_at_inter.rx_idx])
       {
         if(++s_at_inter.rx_cmd_idx >= E_LT_CMD_LAST)
         {
@@ -116,7 +120,7 @@ unsigned char at_inter(unsigned char tk)
 
         for(i=0; i<s_at_inter.rx_idx; i++)
         {
-          if(s_at_inter.cmd[s_at_inter.rx_idx] != aucatlookupt[s_at_inter.rx_cmd_idx][i])        
+          if(s_at_inter.cmd[s_at_inter.rx_idx] != aucatlookuptM[s_at_inter.rx_cmd_idx][i])        
             if(++s_at_inter.rx_cmd_idx >= E_LT_CMD_LAST)
             {
               s_at_inter.state = E_IDLE;
@@ -148,4 +152,37 @@ unsigned char at_inter(unsigned char tk)
     s_at_inter.state = E_IDLE;
     return E_NONE;
   }
+  return E_NONE;
 }
+
+#ifdef TESTING
+#include <stdio.h>
+
+int main()
+{
+    unsigned char teststream[]={'A','T','\r','\n','d','\n','A','T','+','N','A','M','E','?','\r'};
+    int resp;
+    int i;
+
+    at_init();
+
+    for(i=0;i<sizeof(teststream);i++)
+    {
+         resp = at_inter(teststream[i]);
+         printf("interation(%d)=%d ",i,resp);
+         switch(resp)
+         {
+            case E_ACK: printf(":: receive ACK\n"); 
+            break;
+            case E_READ: printf(":: receive E_READ cmd=%d\n",at_get_last_cmd());
+            break;
+            case E_WRITE: printf(":: receive E_WRITE cmd=%d\n",at_get_last_cmd());
+            break;
+            default: printf("\n"); break;
+         }
+    }
+
+    return 1;
+}
+#endif
+
