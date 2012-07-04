@@ -20,6 +20,9 @@ Souce code
 ==========
 \CC4 - Code composer 4 project target to MSP430G2211
 
+\src - platform independent code
+\src\atcmd.c - AT custom commands parser. use Preprocessor name=TESTING to evaluate this on gcc. like "gcc -D TESTING atcmd.c"
+
 Changelog
 =========
 
