@@ -7,6 +7,8 @@
 /*                                                                            */
 /* ========================================================================== */
 
+#include "atcmd.h"
+
 #define CMD_SIZE 4
 
 static unsigned char aucatlookupt1[] = {'A','T'};
@@ -17,52 +19,36 @@ static unsigned char aucatlookupt5[] = {'V','E','R','S'};
 /** Master table */
 static unsigned char *aucatlookuptM[] = {aucatlookupt1,aucatlookupt2,aucatlookupt3,aucatlookupt4,aucatlookupt5};
 
-/** Master table index */
-enum ealookuptmti{
-  E_LT_AT=0,
-  E_LT_MORE,
-  E_LT_CMD_1,
-  E_LT_CMD_2,
-  E_LT_CMD_3,
-  E_LT_CMD_LAST,
-  E_LT_LAST
-};
-
 enum eatintr{
   E_IDLE=0,
   E_RECVING_AT,
   E_RECVING_MORE,
   E_RECVING_RW,
   E_RECVING_CMD,
+  E_RECVING_WV, /**Write value must be a byte only*/
   E_LAST
-};
-
-enum eatintrrc{
-  E_NONE=0,
-  E_OK,
-  E_ERROR,
-  E_ACK,
-  E_READ,
-  E_WRITE,
-  E_BUFFER,
-  E_RC_LAST
 };
 
 typedef struct satinterm{
   int state;
   unsigned char rx_idx;
   unsigned char rx_cmd_idx;
-  unsigned char cmd[CMD_SIZE]; 
+  unsigned char cmd[CMD_SIZE];
+  unsigned char w_value; 
 }tsatinterm;
 
-
-volatile static tsatinterm s_at_inter;
+tsatinterm s_at_inter;
 
 void at_init()
 {
   s_at_inter.state = E_IDLE;
   s_at_inter.rx_idx = 0;
   s_at_inter.rx_cmd_idx = 0;
+}
+
+unsigned char at_get_write_value()
+{
+    return s_at_inter.w_value;
 }
 
 int at_get_last_cmd()
@@ -141,13 +127,17 @@ int at_inter(unsigned char tk)
         s_at_inter.state = E_IDLE;
         return E_READ;
         case '=' : /**Assignment command*/
-        s_at_inter.state = E_IDLE;
-        return E_WRITE;
+        s_at_inter.state = E_RECVING_WV;
+        break;
         default: 
         s_at_inter.state = E_IDLE;
         return E_NONE;
       }
     break;
+    case E_RECVING_WV:
+    	s_at_inter.w_value = tk;
+    	s_at_inter.state = E_IDLE;
+	    return E_WRITE;
     default: 
     s_at_inter.state = E_IDLE;
     return E_NONE;
