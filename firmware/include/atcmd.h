@@ -26,6 +26,7 @@ enum ealookuptmti{
   E_LT_CMD_1,
   E_LT_CMD_2,
   E_LT_CMD_3,
+  E_LT_CMD_4,
   E_LT_CMD_LAST,
   E_LT_LAST
 };
@@ -51,7 +52,6 @@ unsigned char at_get_write_value();
  @brief call this function for each character that compose the command.
  @param tk hold the last character received to build the command.
  @return the command interpreted or E_NONE during the parsing.
- 
  @note at_get_last_cmd return the last command parsed by at_inter
  */
 int at_inter(unsigned char tk);

@@ -11,13 +11,14 @@
 
 #define CMD_SIZE 4
 
-static unsigned char aucatlookupt1[] = {'A','T'};
-static unsigned char aucatlookupt2[] = {'+'};
-static unsigned char aucatlookupt3[] = {'N','A','M','E'};
-static unsigned char aucatlookupt4[] = {'P','O','R','T'};
-static unsigned char aucatlookupt5[] = {'V','E','R','S'};
+static const unsigned char aucatlookupt1[] = {'A','T'};
+static const unsigned char aucatlookupt2[] = {'+'};
+static const unsigned char aucatlookupt3[] = {'N','A','M','E'};
+static const unsigned char aucatlookupt4[] = {'P','O','R','T'};
+static const unsigned char aucatlookupt5[] = {'V','E','R','S'};
+static const unsigned char aucatlookupt6[] = {'P','U','B','L'};
 /** Master table */
-static unsigned char *aucatlookuptM[] = {aucatlookupt1,aucatlookupt2,aucatlookupt3,aucatlookupt4,aucatlookupt5};
+static const unsigned char *aucatlookuptM[] = {aucatlookupt1,aucatlookupt2,aucatlookupt3,aucatlookupt4,aucatlookupt5,aucatlookupt6};
 
 enum eatintr{
   E_IDLE=0,
@@ -30,7 +31,7 @@ enum eatintr{
 };
 
 typedef struct satinterm{
-  int state;
+  unsigned char state;
   unsigned char rx_idx;
   unsigned char rx_cmd_idx;
   unsigned char cmd[CMD_SIZE];
@@ -60,7 +61,12 @@ int at_inter(unsigned char tk)
 {
   unsigned char i;
   
-  if(tk == '\n') return E_NONE; //ignore LF, all cmds must end with "\r\n"
+  if(tk == '\n') 
+  {
+  	//LF reset interpreter, all cmds must end with "\r\n"
+  	at_init();
+  	return E_NONE; 
+  }
   
   switch(s_at_inter.state)
   {
@@ -78,7 +84,7 @@ int at_inter(unsigned char tk)
       }
       else
       {
-        s_at_inter.state = E_IDLE;
+        at_init();
         return E_ERROR;
       }    
     break;
@@ -91,7 +97,7 @@ int at_inter(unsigned char tk)
       }
       else if(tk == '\r')
       {
-        s_at_inter.state = E_IDLE;
+        at_init();
         return E_ACK; //AT acknowledge  
       }
     break;
@@ -100,7 +106,7 @@ int at_inter(unsigned char tk)
       {
         if(++s_at_inter.rx_cmd_idx >= E_LT_CMD_LAST)
         {
-          s_at_inter.state = E_IDLE;
+          at_init();
           return E_ERROR;
         }
 
@@ -109,7 +115,7 @@ int at_inter(unsigned char tk)
           if(s_at_inter.cmd[s_at_inter.rx_idx] != aucatlookuptM[s_at_inter.rx_cmd_idx][i])        
             if(++s_at_inter.rx_cmd_idx >= E_LT_CMD_LAST)
             {
-              s_at_inter.state = E_IDLE;
+              at_init();
               return E_ERROR;
             }
             else
@@ -125,12 +131,14 @@ int at_inter(unsigned char tk)
       {
         case '?' : /**Inquire command*/
         s_at_inter.state = E_IDLE;
+        s_at_inter.rx_idx = 0;
         return E_READ;
         case '=' : /**Assignment command*/
         s_at_inter.state = E_RECVING_WV;
         break;
         default: 
         s_at_inter.state = E_IDLE;
+        s_at_inter.rx_idx = 0;
         return E_NONE;
       }
     break;
