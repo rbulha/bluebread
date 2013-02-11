@@ -27,6 +27,11 @@
  */
 #include <ti/mcu/msp430/csl/CSL.h>
 
+
+/** AT commands interpreter
+ */
+#include "atcmd.h" 
+
 /*
  * ======== application definitions ========
  * Bit period for 9600/4 = 2400 Baud SW UART, assuming
@@ -36,22 +41,20 @@
 #define BITIME  (13)                // 125 KHz /(13*4) = 2404 bits/sec
 #define HBITIME  (7)                //half bit time
 
-typedef void (*rx_routine_type)(unsigned char);
-
-rx_routine_type *pf_rx_callback;
- 
 unsigned char bitCnt;                   // number of bits to transmit
 unsigned int  txByte;                   // transmit buffer with start/stop bits
 unsigned char txPortStatus; 
-unsigned int  Portloop; 
+unsigned char Portloop; 
 volatile unsigned char rxByte;
 volatile unsigned char rxMask;
 volatile unsigned char bBusyRX=0;
 volatile unsigned char txNow=0;
+volatile unsigned char bPublishFrame=0;
+volatile unsigned int  uiPublishFrameCnt=0;
 
 void putstr(char *str);                 // transmit string 
 void transmit(unsigned char ch);        // transmit a character
-void init_uart(void *callback);
+void init_uart(void);
 void rx_uart_cb(unsigned char rxch);
 
 /*
@@ -62,7 +65,9 @@ int main(void)
 {
     CSL_init();                         // Activate Grace-generated config
 
-    init_uart(rx_uart_cb);
+    init_uart();
+    
+    at_init(); /**init AT command interpreter */
 
 	P1OUT |= 0x01; //LED
 	
@@ -74,6 +79,76 @@ int main(void)
     {
     	if(txNow)
     	{
+    		switch(at_inter(rxByte))
+    		{
+	            case E_ACK: 
+		            bPublishFrame=0;
+		            putstr("ok\r\n"); 
+		            break;
+	            case E_READ: 
+	            switch(at_get_last_cmd())
+	            {
+	            	case E_LT_CMD_1: /**NAME*/ 
+	            		putstr("bluebread\r\n"); 
+	            		break;
+	            	case E_LT_CMD_2: /**PORT*/
+	    				putstr("P1.b3|b4|b5= ");
+				        txPortStatus = 0x08;
+				        for(Portloop=0;Portloop<3;Portloop++)
+				        {
+				        	txPortStatus = txPortStatus << Portloop; 
+					        if( (P1IN & txPortStatus) == txPortStatus )
+					        	putstr("1|");
+					        else	
+					        	putstr("0|");
+				        }
+				        putstr("\n\r");
+		            	break;
+	            	case E_LT_CMD_3: /**VERSION*/ 
+	            		putstr("Bluebread version 1.0.0\r\n"); 
+	            		break;
+	            	case E_LT_CMD_4: /**PUBLICATION*/ 
+	            	    if(bPublishFrame)
+	            			putstr("Publication frame=ON\r\n");
+	            		else
+	            			putstr("Publication frame=OFF\r\n");	 
+	            		break;
+	            	default: putstr("read\r\n"); break;
+	            }
+	            break;
+	            case E_WRITE:
+	            switch(at_get_last_cmd())
+	            {
+	            	case E_LT_CMD_1: /**NAME*/ 
+	            		putstr("NAME is read only\r\n"); 
+	            		break;
+	            	case E_LT_CMD_2: /**PORT*/
+	            		switch(at_get_write_value())
+	            		{
+	            			case '1': 
+	            				P1OUT |= 0x01;
+		            			putstr("LED1=ON\r\n");
+		            			break;	
+	            			case '0': 
+	            				P1OUT &= ~0x01;
+		            			putstr("LED1=OFF\r\n");
+		            			break;	
+		            		default: putstr("invalid state\r\n");
+		            			break;	
+	            		}
+	            		break;
+	            	case E_LT_CMD_3: /**VERSION*/ 
+	            		putstr("VERSION is read only\r\n"); 
+	            		break;
+	            	case E_LT_CMD_4: /**PUBLICATION*/ 
+	            		bPublishFrame = at_get_write_value();
+	            		break;	
+	            	default: putstr("write\r\n");	
+	            }
+	            break;	             
+	            default: break;    			
+    		}
+    		/*
     		switch(rxByte)
     		{
     			case 'a':
@@ -101,9 +176,16 @@ int main(void)
     				putstr("ok\r\n");
     				break;
     		}
+    		*/
     		txNow = 0;
     	}
 		 //__bis_SR_register(CPUOFF + GIE);  // Enter LPM3
+		if( (bPublishFrame) && (uiPublishFrameCnt++ > 60000) )
+		{
+			uiPublishFrameCnt = 0;
+			putstr("FRAME\r\n");
+		}
+			
     }
 }
 
@@ -124,12 +206,11 @@ void rx_uart_cb(unsigned char rxch)
     @param callback point to a function like: void func(unsigned char rxch)
     put 0 if you don't want to use a callback function
 */
-void init_uart(void *callback)
+void init_uart(void)
 {
     P1IES |= 0x04;      // RXD Hi/lo edge interrupt on port P1.2
     P1IFG &= ~0x04;     // Clear RXD (flag) before enabling interrupt
     P1IE  |= 0x04;      // Enable RXD interrupt    
-    pf_rx_callback = (rx_routine_type*)callback;
 }
 
 /*
@@ -179,11 +260,7 @@ unsigned short timer_A_ISR(void)
 			CCTL0 &= ~CCIE;  // All bits received, disable interrupt
             P1IFG &= ~0x04;  // Clear RXD (flag) before enabling interrupt
             P1IE  |= 0x04;   // Enable RXD interrupt that wait for the next start bit.    
-            if(pf_rx_callback)
-            {
-               rx_uart_cb(rxByte);
-               //status = LPM3_bits; // Exit LPM0 on return
-            }
+            rx_uart_cb(rxByte);
 		}
     	else	
     		rxMask = rxMask << 1;
