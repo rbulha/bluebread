@@ -64,7 +64,7 @@ def cmd_discovery():
     
 def bluetooth_pooling():
     if sys.platform == 'win32':
-        port_number = 4
+        port_number = 21
     else:
         port_number = '/dev/tty'
     retry_timeout = 3    
