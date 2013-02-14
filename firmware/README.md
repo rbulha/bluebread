@@ -5,7 +5,7 @@ Firmware for Wireless prototype breadboard.
 
 Author
 ======
-Rogério Bulha Siqueira <www.esd-talk.com>
+Rogerio Bulha Siqueira <www.esd-talk.com>
 
 Platform
 ========
