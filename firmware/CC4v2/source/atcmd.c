@@ -100,12 +100,18 @@ int at_inter(unsigned char tk)
         at_init();
         return E_ACK; //AT acknowledge  
       }
+      else
+      {
+        at_init();
+        return E_ERROR;
+      }    
     break;
     case E_RECVING_CMD:
       while(tk != aucatlookuptM[s_at_inter.rx_cmd_idx][s_at_inter.rx_idx])
       {
         if(++s_at_inter.rx_cmd_idx >= E_LT_CMD_LAST)
         {
+          //reach the end of the command table without a match.
           at_init();
           return E_ERROR;
         }
@@ -115,15 +121,17 @@ int at_inter(unsigned char tk)
           if(s_at_inter.cmd[s_at_inter.rx_idx] != aucatlookuptM[s_at_inter.rx_cmd_idx][i])        
             if(++s_at_inter.rx_cmd_idx >= E_LT_CMD_LAST)
             {
+              //reach the end of the command table without a match.
               at_init();
               return E_ERROR;
             }
             else
               break;  
         }
+        //if the code reach this point s_at_inter.rx_idx hold the position of the next command character.
       }
       s_at_inter.cmd[s_at_inter.rx_idx] = tk;
-      if(++s_at_inter.rx_idx == CMD_SIZE)
+      if(++s_at_inter.rx_idx == CMD_SIZE)  //if s_at_inter.rx_idx is less then CMD_SIZE stay in this state for the next command character.
         s_at_inter.state = E_RECVING_RW;
     break;
     case E_RECVING_RW:
@@ -137,9 +145,8 @@ int at_inter(unsigned char tk)
         s_at_inter.state = E_RECVING_WV;
         break;
         default: 
-        s_at_inter.state = E_IDLE;
-        s_at_inter.rx_idx = 0;
-        return E_NONE;
+        at_init();
+        return E_ERROR; //command should be write(=) or read(?)
       }
     break;
     case E_RECVING_WV:
@@ -147,8 +154,8 @@ int at_inter(unsigned char tk)
     	s_at_inter.state = E_IDLE;
 	    return E_WRITE;
     default: 
-    s_at_inter.state = E_IDLE;
-    return E_NONE;
+        at_init();
+        return E_ERROR; //running machine with a invalid state.
   }
   return E_NONE;
 }
