@@ -1,0 +1,1 @@
+-l"./configPkg/linker.cmd" "./main.obj" "./platdep/2452/serial.obj" "./platdep/2452/gpio.obj" "./source/atmachine.obj" "./source/atcmd.obj" -l"libc.a" "../lnk_msp430g2452.cmd" 

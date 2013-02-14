@@ -1,0 +1,9 @@
+package/cfg/main_p430.o430: package/cfg/main_p430.c C:/PROGRA~2/TEXASI~1/xdctools_3_21_01_57_msp430/packages/xdc/std.h C:/PROGRA~2/TEXASI~1/ccsv4/tools/compiler/msp430/include/stdarg.h C:/PROGRA~2/TEXASI~1/ccsv4/tools/compiler/msp430/include/stddef.h C:/PROGRA~2/TEXASI~1/xdctools_3_21_01_57_msp430/packages/ti/targets/msp430/std.h C:/PROGRA~2/TEXASI~1/xdctools_3_21_01_57_msp430/packages/ti/targets/select.h C:/PROGRA~2/TEXASI~1/xdctools_3_21_01_57_msp430/packages/ti/targets/std.h C:/PROGRA~2/TEXASI~1/ccsv4/tools/compiler/msp430/include/stdint.h 
+package/cfg/main_p430.c:
+C:/PROGRA~2/TEXASI~1/xdctools_3_21_01_57_msp430/packages/xdc/std.h:
+C:/PROGRA~2/TEXASI~1/ccsv4/tools/compiler/msp430/include/stdarg.h:
+C:/PROGRA~2/TEXASI~1/ccsv4/tools/compiler/msp430/include/stddef.h:
+C:/PROGRA~2/TEXASI~1/xdctools_3_21_01_57_msp430/packages/ti/targets/msp430/std.h:
+C:/PROGRA~2/TEXASI~1/xdctools_3_21_01_57_msp430/packages/ti/targets/select.h:
+C:/PROGRA~2/TEXASI~1/xdctools_3_21_01_57_msp430/packages/ti/targets/std.h:
+C:/PROGRA~2/TEXASI~1/ccsv4/tools/compiler/msp430/include/stdint.h:
