@@ -19,3 +19,8 @@ Author
 ======
 Rogerio Bulha Siqueira <www.esd-talk.com>
 
+Changelog
+=========
+
+(2013/02/14) : firmware changed look firmware\README.dm
+
