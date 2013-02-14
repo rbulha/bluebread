@@ -18,6 +18,7 @@ Target-Platforms
 
 Souce code
 ==========
+<pre>
 -+CC4v2 - Code composer 4 project target to MSP430G2452
    |
    |-main.c - main file
@@ -51,8 +52,10 @@ Souce code
         |-atcmd.h - Custom AT commands header
         
 -+src - platform independent code
-   |-atcmd.c - AT custom commands parser. use Preprocessor name=TESTING to evaluate this on gcc. like "gcc -D TESTING atcmd.c"
-   
+   |-atcmd.c - AT custom commands parser. 
+               use Preprocessor name=TESTING to evaluate this on gcc. 
+               like "gcc -D TESTING atcmd.c"
+</pre>
 Notes
 =====
 
@@ -64,7 +67,7 @@ CC4v2 - HOW TO USE
 Changelog
 =========
 
-(2012/06/26) : First Issue.
-(2012/06/28) : Code composer 4 project added
-(2013/02/11) : Working on CC4 folder just after that i'll back to platform independent code.
-(2013/02/14) : Working on CC4v2 folder adding patdep folder and support MSP430G2452 device.
+ * (2012/06/26) : First Issue.
+ * (2012/06/28) : Code composer 4 project added
+ * (2013/02/11) : Working on CC4 folder just after that i'll back to platform independent code.
+ * (2013/02/14) : Working on CC4v2 folder adding patdep folder and support MSP430G2452 device.
