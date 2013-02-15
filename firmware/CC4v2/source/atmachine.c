@@ -128,10 +128,25 @@ int at_machine(unsigned char tk)
                 s_at_machine.bPublishFrame = at_get_write_value();
                 break;
             case E_LT_CMD_5: /**PWM1*/ 
-            	pwm_duty_set(at_get_write_value(),1);
+            	pwm_duty_set(at_get_write_value()*256,0);
             	putstr("PWM1=SET\r\n");
                 break;
-                
+            case E_LT_CMD_6: /**PWM2*/ 
+            	pwm_duty_set(at_get_write_value()*256,1);
+            	putstr("PWM2=SET\r\n");
+                break;
+            case E_LT_CMD_7: /**DIRE*/ 
+                /* in case using P.1 and P.2 as dir M1 and dir M2
+                 */
+                switch(at_get_write_value())
+                {
+                    case 'F': port_out_reset(1,0x03); break; //FORWARD
+                    case 'B': port_out_reset(1,0x00); break; //BACKWARD
+                    case 'L': port_out_reset(1,0x02); break; //LEFT
+                    case 'R': port_out_reset(1,0x01); break; //RIGHT
+                }
+            	putstr("DIRE=SET\r\n");
+                break;
             default: putstr("write cmd unknown\r\n");	
         }
         //write state are solved in one turn

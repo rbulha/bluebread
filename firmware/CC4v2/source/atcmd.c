@@ -11,21 +11,20 @@
 
 #define CMD_SIZE 4
 
-static const unsigned char aucatlookupt1[] = {'A','T'};
-static const unsigned char aucatlookupt2[] = {'+'};
-static const unsigned char aucatlookupt3[] = {'N','A','M','E'};
-static const unsigned char aucatlookupt4[] = {'P','O','R','T'};
-static const unsigned char aucatlookupt5[] = {'V','E','R','S'};
-static const unsigned char aucatlookupt6[] = {'P','U','B','L'};
-static const unsigned char aucatlookupt7[] = {'P','W','M','1'};
 /** Master table */
-static const unsigned char *aucatlookuptM[] = {aucatlookupt1,
-                                               aucatlookupt2,
-                                               aucatlookupt3,
-                                               aucatlookupt4,
-                                               aucatlookupt5,
-                                               aucatlookupt6,
-                                               aucatlookupt7};
+/*  Must be sincronized with the Master commands table index: enum ealookuptmti
+ */
+static const unsigned char *aucatlookuptM[] = {
+                                               {'A','T'},         //E_LT_AT
+                                               {'+'},             //E_LT_MORE
+                                               {'N','A','M','E'}, //E_LT_CMD_1
+                                               {'P','O','R','T'}, //E_LT_CMD_2
+                                               {'V','E','R','S'}, //E_LT_CMD_3
+                                               {'P','U','B','L'}, //E_LT_CMD_4
+                                               {'P','W','M','1'}, //E_LT_CMD_5
+                                               {'P','W','M','2'}, //E_LT_CMD_6
+                                               {'D','I','R','E'}, //E_LT_CMD_7
+                                               };
 
 enum eatintr{
   E_IDLE=0,

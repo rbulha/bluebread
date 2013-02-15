@@ -18,6 +18,7 @@ unsigned char port_in(unsigned char port_number)
 	switch(port_number)
 	{
 		case 1:  return P1IN;
+		case 2:  return P2IN;
 		default: return 0x00;	
 	}	
 }
@@ -27,6 +28,7 @@ void port_out_set(unsigned char port_number, unsigned char mask)
 	switch(port_number)
 	{
 		case 1:  P1OUT |= mask;
+		case 2:  P2OUT |= mask;
 	}	
 }
 
@@ -35,5 +37,6 @@ void port_out_reset(unsigned char port_number, unsigned char mask)
 	switch(port_number)
 	{
 		case 1:  P1OUT &= ~mask;
+		case 2:  P2OUT &= ~mask;
 	}	
 }

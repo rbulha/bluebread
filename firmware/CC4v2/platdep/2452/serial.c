@@ -42,7 +42,7 @@ void transmit(unsigned char ch)
     txByte = txByte << 1;               // Add space start bit
 
     CCR0 = TAR + BITIME;                // Some time till first bit
-    CCTL0 = OUTMOD0 + CCIE;             // TXD = mark = idle
+    CCTL0 = OUT + CCIE;             // TXD = mark = idle
     while (CCTL0 & CCIE);               // Wait for ISR to complete TX
 }
 
@@ -85,10 +85,10 @@ void suart_timer_tick(void)
 	    }
 	    else {
 	        if (txByte & 0x01) {
-	            CCTL0 &= ~OUTMOD2;          // TX Mark
+	            CCTL0 &= ~OUT;          // TX Mark
 	        }
 	        else {
-	            CCTL0 |= OUTMOD2;           // TX Space
+	            CCTL0 |= OUT;           // TX Space
 	        }
 	        txByte = txByte >> 1;
 	        bitCnt--;
@@ -104,7 +104,7 @@ void suart_start_rx(void)
 	rxByte = 0x00;
 	rxMask = 0x01;
 	CCR0 = TAR + BITIME; // Schedule next interrupt half bit time.
-	CCTL0 |= CCIE;        // enable reception timer	
+	CCTL0 |= CCIE;       // enable reception timer	
 }
 
 void suart_init(void)

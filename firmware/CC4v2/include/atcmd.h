@@ -28,6 +28,8 @@ enum ealookuptmti{
   E_LT_CMD_3,
   E_LT_CMD_4,
   E_LT_CMD_5,
+  E_LT_CMD_6,
+  E_LT_CMD_7,
   E_LT_CMD_LAST,
   E_LT_LAST
 };
