@@ -12,9 +12,10 @@
 #include "atcmd.h"
 #include "atmachine.h"
 
-/** Platform depended includes*/
+/** Platform independed includes*/
 #include "gpio.h"
 #include "serial.h"
+#include "pwm.h"
 
 enum eatintr{
   E_IDLE=0,
@@ -126,6 +127,11 @@ int at_machine(unsigned char tk)
             case E_LT_CMD_4: /**PUBLICATION*/ 
                 s_at_machine.bPublishFrame = at_get_write_value();
                 break;
+            case E_LT_CMD_5: /**PWM1*/ 
+            	pwm_duty_set(at_get_write_value(),1);
+            	putstr("PWM1=SET\r\n");
+                break;
+                
             default: putstr("write cmd unknown\r\n");	
         }
         //write state are solved in one turn

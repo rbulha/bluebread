@@ -17,10 +17,13 @@ void GPIO_init(void)
     P1OUT = BIT6 + BIT7;
 
     /* Port 1 Port Select Register */
-    P1SEL = BIT1 + BIT6 + BIT7;
+    P1SEL = BIT1 + BIT4 + BIT6 + BIT7;
+
+    /* Port 1 Port Select 2 Register */
+    P1SEL2 = BIT4;
 
     /* Port 1 Direction Register */
-    P1DIR = BIT0 + BIT1 + BIT6 + BIT7;
+    P1DIR = BIT0 + BIT1 + BIT4 + BIT6 + BIT7;
 
     /* Port 1 Resistor Enable Register */
     P1REN = BIT6 + BIT7;

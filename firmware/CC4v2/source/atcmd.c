@@ -17,8 +17,15 @@ static const unsigned char aucatlookupt3[] = {'N','A','M','E'};
 static const unsigned char aucatlookupt4[] = {'P','O','R','T'};
 static const unsigned char aucatlookupt5[] = {'V','E','R','S'};
 static const unsigned char aucatlookupt6[] = {'P','U','B','L'};
+static const unsigned char aucatlookupt7[] = {'P','W','M','1'};
 /** Master table */
-static const unsigned char *aucatlookuptM[] = {aucatlookupt1,aucatlookupt2,aucatlookupt3,aucatlookupt4,aucatlookupt5,aucatlookupt6};
+static const unsigned char *aucatlookuptM[] = {aucatlookupt1,
+                                               aucatlookupt2,
+                                               aucatlookupt3,
+                                               aucatlookupt4,
+                                               aucatlookupt5,
+                                               aucatlookupt6,
+                                               aucatlookupt7};
 
 enum eatintr{
   E_IDLE=0,
@@ -38,7 +45,7 @@ typedef struct satinterm{
   unsigned char w_value; 
 }tsatinterm;
 
-tsatinterm s_at_inter;
+volatile tsatinterm s_at_inter;
 
 void at_init()
 {
@@ -118,7 +125,7 @@ int at_inter(unsigned char tk)
 
         for(i=0; i<s_at_inter.rx_idx; i++)
         {
-          if(s_at_inter.cmd[s_at_inter.rx_idx] != aucatlookuptM[s_at_inter.rx_cmd_idx][i])        
+          if(s_at_inter.cmd[i] != aucatlookuptM[s_at_inter.rx_cmd_idx][i])        
             if(++s_at_inter.rx_cmd_idx >= E_LT_CMD_LAST)
             {
               //reach the end of the command table without a match.

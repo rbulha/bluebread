@@ -27,8 +27,42 @@ void Timer0_A3_init(void)
      */
     TA0CCTL0 = CM_0 + CCIS_0 + OUTMOD_0 + CCIE + OUT;
 
+    /* 
+     * TA0CCTL1, Capture/Compare Control Register 1
+     * 
+     * CM_0 -- No Capture
+     * CCIS_0 -- CCIxA
+     * ~SCS -- Asynchronous Capture
+     * ~SCCI -- Latched capture signal (read)
+     * ~CAP -- Compare mode
+     * OUTMOD_1 -- PWM output mode: 1 - Set
+     * 
+     * Note: ~<BIT> indicates that <BIT> has value zero
+     */
+    TA0CCTL1 = CM_0 + CCIS_0 + OUTMOD_1;
+
+    /* 
+     * TA0CCTL2, Capture/Compare Control Register 2
+     * 
+     * CM_0 -- No Capture
+     * CCIS_0 -- CCIxA
+     * ~SCS -- Asynchronous Capture
+     * ~SCCI -- Latched capture signal (read)
+     * ~CAP -- Compare mode
+     * OUTMOD_5 -- PWM output mode: 5 - Reset
+     * 
+     * Note: ~<BIT> indicates that <BIT> has value zero
+     */
+    TA0CCTL2 = CM_0 + CCIS_0 + OUTMOD_5;
+
     /* TA0CCR0, Timer_A Capture/Compare Register 0 */
     TA0CCR0 = 6292;
+
+    /* TA0CCR1, Timer_A Capture/Compare Register 1 */
+    TA0CCR1 = 3149;
+
+    /* TA0CCR2, Timer_A Capture/Compare Register 2 */
+    TA0CCR2 = 4000;
 
     /* 
      * TA0CTL, Timer_A3 Control Register

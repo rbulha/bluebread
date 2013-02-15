@@ -20,7 +20,7 @@ void USI_init(void)
      * USI Control Register 0
      * 
      * USIPE7 -- USI function enabled
-     * USIPE6 -- USI function enabled
+     * ~USIPE6 -- USI function disabled
      * ~USIPE5 -- USI function disabled
      * ~USILSB -- MSB first
      * USIMST -- Master mode
@@ -30,7 +30,7 @@ void USI_init(void)
      * 
      * Note: ~<BIT> indicates that <BIT> has value zero
      */
-    USICTL0 = USIPE7 + USIPE6 + USIMST + USISWRST;
+    USICTL0 = USIPE7 + USIMST + USISWRST;
     
     /* 
      * USI Control Register 1

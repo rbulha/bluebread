@@ -38,10 +38,12 @@ Souce code
    |    |    |
    |    |    |-gpio.c    - general I/O implementation for MAS430G2452 
    |    |    |-serial.c  - Software UART implementation for MAS430G2452
+   |    |    |-pwm.c     - pwm for MAS430G2452
    |    |-+include
    |    |    |
    |    |    |-gpio.h    - general I/O implementation header
    |    |    |-serial.h  - Software UART implementation header
+   |    |    |-pwm.h     - PWM implementation header
 
 -+CC4 - Code composer 4 project target to MSP430G2211
    |
@@ -71,3 +73,4 @@ Changelog
  * (2012/06/28) : Code composer 4 project added
  * (2013/02/11) : Working on CC4 folder just after that i'll back to platform independent code.
  * (2013/02/14) : Working on CC4v2 folder adding patdep folder and support MSP430G2452 device.
+ * (2013/02/14) : add PWM support for MSP430G2452 in the platdep.
